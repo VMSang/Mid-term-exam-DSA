@@ -3,47 +3,47 @@ using namespace  std;
 
 struct thanhvien{
     string khoa;
-    string tenthanhvien;
-    string hochamhocvi;
-    int khunggio[4];
+    string tenThanhVien;
+    string hocHamHocVi;
+    int khungGioRanh[4];
 };
 
-struct node{
+struct khoa{
     thanhvien data;
-    node *next;
+    khoa *next;
 };
 
-node* createNode(string khoa, string tenthanhvien, string hochamhocvi){
-    node *newNode = new node;
+khoa* createkhoa(string khoa, string tenThanhVien, string hocHamHocVi){
+    khoa *newkhoa = new khoa;
 
-    newNode->data.khoa = khoa;
-    newNode->data.tenthanhvien = tenthanhvien;
-    newNode->data.hochamhocvi = hochamhocvi;
-    newNode->next = NULL;
-    return newNode;
+    newkhoa->data.khoa = khoa;
+    newkhoa->data.tenThanhVien = tenThanhVien;
+    newkhoa->data.hocHamHocVi
+    newkhoa->next = NULL;
+    return newkhoa;
 }
 
-void themcuoi(node *&head, string &khoa, string &tenthanhvien, string &hochamhocvi){
+void themcuoi(khoa *&head, string &khoa, string &tenThanhVien, string &hocHamHocVi){
     getline(cin, khoa);
-    getline(cin, tenthanhvien);
-    getline(cin, hochamhocvi);
+    getline(cin, tenThanhVien);
+    getline(cin, hocHamHocVi);
 
-    node *newnode = createNode(khoa, tenthanhvien, hochamhocvi);
-    node *tmp = head;
+    khoa *newkhoa = createkhoa(khoa, tenThanhVien, hocHamHocVi);
+    khoa *tmp = head;
     if(head == NULL){
-        head = newnode;
+        head = newkhoa;
         return;
     }
     while(tmp->next != NULL){
         tmp = tmp -> next;
     }
-    tmp -> next = newnode;
+    tmp -> next = newkhoa;
 }
-void duyet(node *head){
+void duyet(khoa *head){
     while (head != NULL){
         cout<<head->data.khoa<<endl;
-        cout<<head->data.tenthanhvien<<endl;
-        cout<<head->data.hochamhocvi<<endl;
+        cout<<head->data.tenThanhVien<<endl;
+        cout<<head->data.hocHamHocVi<<endl;
         head = head -> next;
     }
 }
@@ -52,15 +52,14 @@ int main() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 
-    node *head = NULL;
+    khoa *head = NULL;
     string khoa;
-    string tenthanhvien;
-    string hochamhocvi;
+    string tenThanhVien;
+    string hocHamHocVi;
     //giả sử tổng các khoa có 20 thành viên
     for(int i=0; i<20; i++){
-        themcuoi(head, khoa, tenthanhvien, hochamhocvi);
+        themcuoi(head, khoa, tenThanhVien, hocHamHocVi);
     }
-    duyet(head);
 
     return 0;
 }
