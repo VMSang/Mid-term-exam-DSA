@@ -1,86 +1,16 @@
 congNgheThongTin
 Trần Thị Huyền Trang
 Phó Giáo Sư
-0530
-2000
 
-luat
-Nguyễn Quang Vinh
-Thạc Sĩ
-
-moiTruong
-Lê Khánh Linh
-Tiến Sĩ
-
-ngheThuat
-Đặng Hải Yến
-Giáo Sư
-
-ngoaiNgu
-Phạm Minh Anh
-Thạc Sĩ
-
-quanTriKinhDoanh
-Vũ Thị Thu Hương
-Phó Giáo Sư
-
-thuVien_VanPhong
+congNgheThongTin
 Trần Đức Minh
 Giáo Sư
 
 congNgheThongTin
-Nguyễn Hữu Phúc
-Thạc Sĩ
-
-luat
-Hoàng Thị Hồng Nhung
-Tiến Sĩ
-
-moiTruong
-Phan Đăng Khoa
-Giáo Sư
-
-ngheThuat
-Lê Thị Thúy Quỳnh
-Phó Giáo Sư
-
-ngoaiNgu
-Trần Trung Kiên
-Tiến Sĩ
-
-quanTriKinhDoanh
-Đoàn Hải Yến
-Thạc Sĩ
-
-thuVien_VanPhong
 Nguyễn Ngọc Lan
 Phó Giáo Sư
 
 congNgheThongTin
-Đỗ Minh Quân
-Giáo Sư
-
-luat
-Trần Thị Thanh Tâm
-Phó Giáo Sư
-
-moiTruong
-Lương Thị Huệ
-Thạc Sĩ
-
-ngheThuat
-Ngô Quang Vinh
-Tiến Sĩ
-
-ngoaiNgu
-Vũ Thị Thu Hằng
-Giáo Sư
-
-quanTriKinhDoanh
-Bùi Văn Thành
-Phó Giáo Sư
-
-thuVien_VanPhong
 Trần Khánh Linh
 Thạc Sĩ
 
@@ -88,31 +18,262 @@ congNgheThongTin
 Phạm Đức Minh
 Tiến Sĩ
 
+congNgheThongTin
+Hoàng Thị Ngọc Anh
+Phó Giáo Sư
+
+congNgheThongTin
+Nguyễn Văn An
+Giảng Viên
+
+congNgheThongTin
+Trần Thị Be
+Giảng Viên
+
+congNgheThongTin
+Lê Văn Châu
+Giảng Viên
+
+congNgheThongTin
+Phạm Thị Diễm
+Giảng Viên
+
 luat
+Nguyễn Quang Vinh
+Thạc Sĩ
+
+luat
+Nguyễn Hữu Phúc
+Thạc Sĩ
+
+luat  
+Đỗ Minh Quân
+Giáo Sư
+
+luat
+Phạm Đức Minh
+Tiến Sĩ
+
+luat
+Nguyễn Văn Em
+Giảng Viên
+
+luat
+Trần Thị Phan
+Giảng Viên
+
+luat
+Lê Văn Giang
+Giảng Viên
+
+luat
+Phạm Thị Hiếu
+Giảng Viên
+
+luat
+Nguyễn Văn Ân
+Giảng Viên
+
+luat
+Trần Thị Châu
+Giảng Viên
+
+moiTruong
+Hoàng Thị Hồng Nhung
+Tiến Sĩ
+
+moiTruong
+Trần Thị Thanh Tâm
+Phó Giáo Sư
+
+moiTruong
 Lê Thị Hồng Hà
 Giáo Sư
 
 moiTruong
+Nguyễn Văn Kiệt
+Giảng Viên
+
+moiTruong
+Trần Thị Linh
+Giảng Viên
+
+moiTruong
+Lê Văn Muội
+Giảng Viên
+
+moiTruong
+Phạm Thị Nhàn
+Giảng Viên
+
+moiTruong
+Nguyễn Văn Ơn
+Giảng Viên
+
+moiTruong
+Trần Thị Phú
+Giảng Viên
+
+moiTruong
+Lê Văn Quân
+Giảng Viên
+
+ngheThuat
+Lê Khánh Linh
+Tiến Sĩ
+
+ngheThuat
+Phan Đăng Khoa
+Giáo Sư
+
+ngheThuat
+Lương Thị Huệ
+Thạc Sĩ
+
+ngheThuat
 Vũ Quốc Tuấn
 Phó Giáo Sư
 
 ngheThuat
+Nguyễn Văn Rê
+Giảng Viên
+
+ngheThuat
+Trần Thị Sum
+Giảng Viên
+
+ngheThuat
+Lê Văn Tiền
+Giảng Viên
+
+ngheThuat
+Phạm Thị Un
+Giảng Viên
+
+ngheThuat
+Nguyễn Văn Cường
+Giảng Viên
+
+ngheThuat
+Trần Thị Xa
+Giảng Viên
+
+ngoaiNgu
+Đặng Hải Yến
+Giáo Sư
+
+ngoaiNgu
+Lê Thị Thúy Quỳnh
+Phó Giáo Sư
+
+ngoaiNgu
+Ngô Quang Vinh
+Tiến Sĩ
+
+ngoaiNgu
 Trần Thị Mai Phương
 Thạc Sĩ
 
 ngoaiNgu
+Nguyễn Văn Sim
+Giảng Viên
+
+ngoaiNgu
+Trần Thị Lựu
+Giảng Viên
+
+ngoaiNgu
+Lê Văn cầu
+Giảng Viên
+
+ngoaiNgu
+Phạm Thị Bình
+Giảng Viên
+
+ngoaiNgu
+Nguyễn Văn Châu
+Giảng Viên
+
+ngoaiNgu
+Trần Thị Điền
+Giảng Viên
+
+quanTriKinhDoanh
+Phạm Minh Anh
+Thạc Sĩ
+
+quanTriKinhDoanh
+Trần Trung Kiên
+Tiến Sĩ
+
+quanTriKinhDoanh
+Vũ Thị Thu Hằng
+Giáo Sư
+
+quanTriKinhDoanh
 Đỗ Hồng Quang
 Tiến Sĩ
 
 quanTriKinhDoanh
+Nguyễn Văn Hiền
+Giảng Viên
+
+quanTriKinhDoanh
+Trần Thị Phi Phan
+Giảng Viên
+
+quanTriKinhDoanh
+Lê Văn Gân
+Giảng Viên
+
+quanTriKinhDoanh
+Phạm Thị Kha
+Giảng Viên
+
+quanTriKinhDoanh
+Nguyễn Văn Kiệt
+Giảng Viên
+
+quanTriKinhDoanh
+Trần Thị Ra
+Giảng Viên  
+
+thuVien_VanPhong
+Vũ Thị Thu Hương
+Phó Giáo Sư
+
+thuVien_VanPhong
+Đoàn Hải Yến
+Thạc Sĩ
+
+thuVien_VanPhong
+Bùi Văn Thành
+Phó Giáo Sư  
+
+thuVien_VanPhong
 Nguyễn Thị Hồng Hạnh
 Giáo Sư
 
 thuVien_VanPhong
-Hoàng Thị Ngọc Anh
-Phó Giáo Sư
-    
-0800 1030
-0930 1530
-0303 0900
+Nguyễn Văn Bo
+Giảng Viên
 
+thuVien_VanPhong
+Trần Thị Lựa
+Giảng Viên
+
+thuVien_VanPhong
+Lê Văn Mai
+Giảng Viên
+
+thuVien_VanPhong
+Phạm Thị Nôm
+Giảng Viên
+
+thuVien_VanPhong
+Nguyễn Văn Xuân
+Giảng Viên
+
+thuVien_VanPhong
+Trần Thị Đào
+Giảng Viên
