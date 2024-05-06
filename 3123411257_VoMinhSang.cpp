@@ -1,22 +1,45 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
-struct Node {
+struct KhoangThoiGianRanh {
+    int gioBatDau;
+    int gioKetThuc;
+};
+
+struct chuyenDoiTime {
+    vector<vector<KhoangThoiGianRanh>> danhSachThoiGianRanh; // Vector 2 chiều lưu trữ danh sách khoảng thời gian rảnh cho mỗi ngày
+};
+
+struct NodeGiangVien {
     string tenThanhVien;
     string hocHamHocVi;
-    int time; //lưu thời gian rảnh
-    Node* next; //liên kết thành viên tiếp theo trong cùng khoa
+    chuyenDoiTime time;
+    NodeGiangVien* next{};
 };
 
 struct Khoa {
-    Node* head;
+    NodeGiangVien* head;
     int soLuongThanhVien;
 };
 
-void themThanhVien(Khoa& khoa, string ten, string hocVi) {
-    Node* newNode = new Node;
+struct HoiDong {
+    string tenKhoa;
+    chuyenDoiTime thoiGianToChuc;
+    NodeGiangVien* danhSachThanhVien[3]; // Mảng chứa con trỏ đến 3 thành viên trong hội đồng
+};
+
+struct NodeHoiDong {
+    HoiDong* hoiDong;
+    NodeHoiDong* next;
+};
+
+NodeHoiDong* danhSachHoiDong = NULL;
+
+void themThanhVienVaoKhoa(Khoa& khoa, string ten, string hocVi) {
+    NodeGiangVien* newNode = new NodeGiangVien;
     newNode->tenThanhVien = ten;
     newNode->hocHamHocVi = hocVi;
 
@@ -27,7 +50,7 @@ void themThanhVien(Khoa& khoa, string ten, string hocVi) {
         khoa.head = newNode;
     } else {
         // Đã tồn tại ít nhất 1 thành viên => thêm thành viên mới , lien ket voi thanh vien cu
-        Node* curr = khoa.head;
+        NodeGiangVien* curr = khoa.head;
         while (curr->next != NULL) {
             curr = curr->next;
         }
@@ -36,8 +59,81 @@ void themThanhVien(Khoa& khoa, string ten, string hocVi) {
     khoa.soLuongThanhVien++;
 }
 
+vector<KhoangThoiGianRanh> timGiaoThoiGianRanh(chuyenDoiTime time1, chuyenDoiTime time2, chuyenDoiTime time3, int thu) {
+    vector<KhoangThoiGianRanh> giaoDanhSachThoiGianRanh;
+    int index = thu - 2; // Chỉ số của ngày trong tuần (thứ 2 có chỉ số 0, thứ 3 có chỉ số 1, ...)
+
+    for (const auto& khoang1 : time1.danhSachThoiGianRanh[index]) {
+        for (const auto& khoang2 : time2.danhSachThoiGianRanh[index]) {
+            for (const auto& khoang3 : time3.danhSachThoiGianRanh[index]) {
+                int gioBatDauGiao = max(khoang1.gioBatDau, max(khoang2.gioBatDau, khoang3.gioBatDau));
+                int gioKetThucGiao = min(khoang1.gioKetThuc, min(khoang2.gioKetThuc, khoang3.gioKetThuc));
+
+                if (gioKetThucGiao - gioBatDauGiao >= 0.5) {
+                    KhoangThoiGianRanh khoangGiao = {gioBatDauGiao, gioBatDauGiao + 0.5};
+                    giaoDanhSachThoiGianRanh.push_back(khoangGiao);
+                }
+            }
+        }
+    }
+
+    return giaoDanhSachThoiGianRanh;
+}
+
+void taoHoiDong(string tenKhoa, NodeGiangVien* thanhVien1, NodeGiangVien* thanhVien2, NodeGiangVien* thanhVien3) {
+    chuyenDoiTime thoiGianToChuc;
+
+    for (int thu = 2; thu <= 6; thu++) {
+        vector<KhoangThoiGianRanh> giaoDanhSachThoiGianRanh = timGiaoThoiGianRanh(thanhVien1->time, thanhVien2->time, thanhVien3->time, thu);
+        if (!giaoDanhSachThoiGianRanh.empty()) {
+            thoiGianToChuc.danhSachThoiGianRanh.push_back(giaoDanhSachThoiGianRanh);
+            thoiGianToChuc.thu = thu;
+            break; // Tìm thấy thời gian tổ chức hội đồng, thoát vòng lặp
+        }
+    }
+
+    if (!thoiGianToChuc.danhSachThoiGianRanh.empty()) {
+        HoiDong* hoiDongMoi = new HoiDong;
+        hoiDongMoi->tenKhoa = tenKhoa;
+        hoiDongMoi->thoiGianToChuc = thoiGianToChuc;
+        hoiDongMoi->danhSachThanhVien[0] = thanhVien1;
+        hoiDongMoi->danhSachThanhVien[1] = thanhVien2;
+        hoiDongMoi->danhSachThanhVien[2] = thanhVien3;
+
+        NodeHoiDong* newNode = new NodeHoiDong;
+        newNode->hoiDong = hoiDongMoi;
+        newNode->next = NULL;
+
+        if (danhSachHoiDong == NULL) {
+            danhSachHoiDong = newNode;
+        } else {
+            NodeHoiDong* curr = danhSachHoiDong;
+            while (curr->next != NULL) {
+                curr = curr->next;
+            }
+            curr->next = newNode;
+        }
+    } else {
+        cout << "Khong tim thay thoi gian hop le de to chuc hoi dong cho khoa " << tenKhoa << endl;
+    }
+}
+
+void timKiemHoiDongTheoGiangVien(string tenGiangVien) {
+    NodeHoiDong* curr = danhSachHoiDong;
+    while (curr != NULL) {
+        for (int i = 0; i < 3; i++) {
+            if (curr->hoiDong->danhSachThanhVien[i]->tenThanhVien == tenGiangVien) {
+                cout << "Giảng viên " << tenGiangVien << " tham gia hội đồng của khoa " << curr->hoiDong->tenKhoa << " vào thời gian "
+                     << curr->hoiDong->thoiGianToChuc.thu << " "
+                     << curr->hoiDong->thoiGianToChuc.gioBatDau << " - "
+                     << curr->hoiDong->thoiGianToChuc.gioKetThuc << endl;
+            }
+        }
+        curr = curr->next;
+    }
+}
 int main() {
-    cout << "\t-----Chào Mừng bạn đến với hệ thống quản lý hội đồng nghiệm thu-----\n";
+    cout << "\n\t\t\t-----------Chào Mừng bạn đến với hệ thống quản lý hội đồng nghiệm thu-----------\n\n";
     // Tạo 7 khoa
     Khoa danhSachKhoa[7];
     for (int i = 0; i < 7; i++) {
@@ -45,32 +141,31 @@ int main() {
         danhSachKhoa[i].soLuongThanhVien = 0;
     }
     // mở file thông tin Giảng Viên
-    fstream InfFile("/media/minhsang/Data/1_Source Code/Mid-term-exam-DSA/inputInforMember.txt");
+    fstream InfFile("/home/minhsang/Documents/DSA/inputInforMember.txt");
     if(!InfFile){
         cout<<"Lỗi Mở File thông tin";
         return -1;
     }
-    // luu tru thong tin
+//---------------------------------Đọc File Thông Tin Giảng Viên---------------------------------
     string khoaCuaGiangVien, tenGiangVien, hocVi;
     while (getline(InfFile, khoaCuaGiangVien)) {
 
         getline(InfFile, tenGiangVien);
         getline(InfFile, hocVi);
-
         if (khoaCuaGiangVien == "congNgheThongTin") {
-            themThanhVien(danhSachKhoa[0], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[0], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "luat") {
-            themThanhVien(danhSachKhoa[1], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[1], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "moiTruong") {
-            themThanhVien(danhSachKhoa[2], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[2], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "ngheThuat") {
-            themThanhVien(danhSachKhoa[3], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[3], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "ngoaiNgu") {
-            themThanhVien(danhSachKhoa[4], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[4], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "quanTriKinhDoanh") {
-            themThanhVien(danhSachKhoa[5], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[5], tenGiangVien, hocVi);
         } else if (khoaCuaGiangVien == "thuVien_VanPhong") {
-            themThanhVien(danhSachKhoa[6], tenGiangVien, hocVi);
+            themThanhVienVaoKhoa(danhSachKhoa[6], tenGiangVien, hocVi);
         } else {
             cout << "Khong the so sanh du lieu" << endl;
         }
@@ -80,14 +175,12 @@ int main() {
         getline(InfFile, emptyLine);
     }
     InfFile.close();
-
+//---------------------------------Nhập Thông Tin Chọn Khoa, Số người đã biết---------------------------------
     bool nhapTiep = true;
     while (nhapTiep) {
         bool validInput = false;
         int bietBaoNhieuNguoi;
-        int chonKhoa;
-        int chon = -1;
-
+        int chonKhoa = -1;
         while (!validInput) {
             do{
                 cout << "Mời bạn chọn khoa muốn tạo hội đồng:\n";
@@ -101,9 +194,13 @@ int main() {
                 cout << "Khoa: ";
 
                 cin >> chonKhoa;
+                if(chonKhoa < 1 || chonKhoa > 7){
+                    cout<<"Không có khoa thứ "<<chonKhoa<<" mời bạn chọn lại"<<endl;
+                    chonKhoa = -1;
+                }
                 if (chonKhoa == 1) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Công nghệ Thông tin\n";
-                    Node* curr = danhSachKhoa[0].head;
+                    NodeGiangVien* curr = danhSachKhoa[0].head;
                     for (int i = 1; curr != NULL; i++) {
                         cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
@@ -112,65 +209,62 @@ int main() {
 
                 if (chonKhoa == 2) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Luật\n";
-                    Node* curr = danhSachKhoa[1].head;
+                    NodeGiangVien* curr = danhSachKhoa[1].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
 
                 if (chonKhoa == 3) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Môi trường\n";
-                    Node* curr = danhSachKhoa[2].head;
+                    NodeGiangVien* curr = danhSachKhoa[2].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
 
                 if (chonKhoa == 4) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Nghệ thuật\n";
-                    Node* curr = danhSachKhoa[3].head;
+                    NodeGiangVien* curr = danhSachKhoa[3].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
 
                 if (chonKhoa == 5) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Ngoại ngữ\n";
-                    Node* curr = danhSachKhoa[4].head;
+                    NodeGiangVien* curr = danhSachKhoa[4].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
 
                 if (chonKhoa == 6) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Quản trị Kinh doanh\n";
-                    Node* curr = danhSachKhoa[5].head;
+                    NodeGiangVien* curr = danhSachKhoa[5].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
 
                 if (chonKhoa == 7) {
-                    cout << "Đây là danh sách các thành viên thuộc khoa Thư viện – Văn phòng\n";
-                    Node* curr = danhSachKhoa[6].head;
+                    cout << "Đây là danh sách các thành viên thuộc khoa Thư viện – Văn phòng:\n";
+                    NodeGiangVien* curr = danhSachKhoa[6].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->tenThanhVien << endl;
+                        cout <<"\t"<< i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
-
-                cout<<endl;
-                cout<<"Nếu muốn đổi khoa chọn [-1]"<<endl;
-                cout << "Bạn đã biết thời gian trống của bao nhiêu người trong danh sách trên: ";
-            } while (chon != -1);
-
+                if(chonKhoa != -1){
+                    cout << "Bạn đã biết thời gian trống của bao nhiêu người trong danh sách trên (-1 để đổi khoa): ";
+                }
+            } while (chonKhoa == -1);
             cin >> bietBaoNhieuNguoi;
-
             if (bietBaoNhieuNguoi >= 3 && bietBaoNhieuNguoi <= 10) {
                 validInput = true;
             } else if (bietBaoNhieuNguoi < 3) {
@@ -181,35 +275,67 @@ int main() {
             }
         }
         cout << "Vâng, đã biết " << bietBaoNhieuNguoi << " người\n";
-
+//---------------------------------Nhập Thông Tin Thời Gian Rảnh ---------------------------------
         cout << "\nMời bạn nhập khung giờ trống cho từng người đã biết\n";
         cout << "Với định dạng sau: [thứ][GiờBắtĐầuRảnh][GiờBận] ví dụ: 30915 (thứ 3, rảnh từ 9 giờ đến 15 giờ)\n";
-        cout << endl;
         int chonNguoiThuMay;
         for (int i = 0; i < bietBaoNhieuNguoi; i++){
-            cout<<"Người Thứ ";
+            cout<<"Chọn người thứ ";
             cin>>chonNguoiThuMay;
-    		bool giaTriTime = false;
-    		while (!giaTriTime) {
-        		cout << "Thời gian của người thứ " << chonNguoiThuMay << " theo danh sách: ";
-                //đi đến nơi lưu thơi gian của người đó
-                Node *curr = danhSachKhoa[chonKhoa].head;
-                for(int j=0; j<chonNguoiThuMay; j++){
-                    curr = curr ->next;
-                }
-                int time;
-                cin>>time;
-        		// Kiểm tra định dạng thời gian
-        		if (time >= 10000 && time <= 70000) {
-                    curr->time = time;
-          			giaTriTime = true;
-        		} else {
-            		cout << "Bạn đã nhập định dạng thời gian không hợp lệ. Vui lòng nhập lại." << endl;
-        		}
-   			}
-}
+            if(chonNguoiThuMay < 1 || chonNguoiThuMay > danhSachKhoa[chonKhoa - 1].soLuongThanhVien){
+                cout<<"Không có người thứ "<<chonNguoiThuMay<<" trong danh sách của khoa"<<endl;
+                i--;
+                continue;
+            }
 
-        cout << "\nBạn có muốn tiếp tục nhập thông tin cho hội đồng không?" << endl;
+            bool giaTriTime = false;
+            while (!giaTriTime) {
+                NodeGiangVien* curr = danhSachKhoa[chonKhoa - 1].head;
+                for (int j = 1; j < chonNguoiThuMay; j++) {
+                    curr = curr->next;
+                }
+                cout << curr->hocHamHocVi << ": " << curr->tenThanhVien << endl;
+
+                chuyenDoiTime tmpTime;
+                cout << "Nhập -1 để kết thúc nhập thời gian rảnh" << endl;
+                for (int thu = 2; thu <= 6; thu++) {
+                    cout << "Thời gian rảnh vào thứ " << thu << ":" << endl;
+                    int gioBatDau, gioKetThuc;
+                    vector<KhoangThoiGianRanh> danhSachThoiGianRanhThuX;
+                    do {
+                        cout << "Thời gian bắt đầu rảnh (8-16): ";
+                        cin >> gioBatDau;
+                        if (gioBatDau == -1) break;
+                        cout << "Thời gian kết thúc rảnh (9-17): ";
+                        cin >> gioKetThuc;
+                        if (gioBatDau >= 8 && gioBatDau < 17 && gioKetThuc > gioBatDau && gioKetThuc <= 17) {
+                            KhoangThoiGianRanh khoangThoiGian = {gioBatDau, gioKetThuc};
+                            danhSachThoiGianRanhThuX.push_back(khoangThoiGian);
+                        } else {
+                            cout << "Bạn đã nhập định dạng thời gian không hợp lệ. Vui lòng nhập lại." << endl;
+                        }
+                    } while (gioBatDau != -1);
+                    tmpTime.danhSachThoiGianRanh.push_back(danhSachThoiGianRanhThuX);
+                }
+
+                bool coKhoangThoiGianRanh = false;
+                for (const auto& danhSachThuX : tmpTime.danhSachThoiGianRanh) {
+                    if (!danhSachThuX.empty()) {
+                        coKhoangThoiGianRanh = true;
+                        break;
+                    }
+                }
+
+                if (coKhoangThoiGianRanh) {
+                    curr->time = tmpTime;
+                    giaTriTime = true;
+                } else {
+                    cout << "Bạn chưa nhập thời gian rảnh nào." << endl;
+                }
+            }
+        }
+
+        cout << "\nBạn có muốn tiếp tục nhập thông tin cho những người đã biết nữa không?" << endl;
         cout << "1: Có" << endl;
         cout << "2: Không" << endl;
         cout << "Nhập lựa chọn của bạn: ";
@@ -220,24 +346,33 @@ int main() {
         if (luaChon != 1)
             nhapTiep = false;
     }
-
+//---------------------------------Lựa chọn---------------------------------
     int option;
     cout << "\n-----------Lựa chọn:-----------" << endl;
-    cout << "1: Kiểm tra hai hội đồng bất kỳ (tất cả hội đồng đã được tạo bao gồm khác khoa)" << endl;
-    cout << "2: Tìm kiếm hội đồng đang tham gia thông qua khoa nào, tên của giáo viên" << endl;
+    cout << "1: Kiểm tra hai hội đồng bất kỳ (tất cả hội đồng đã được tạo bao gồm khác khoa) có trùng lịch nhau hay không" << endl;
+    cout << "2: Tìm kiếm hội đồng đang tham gia thông qua khoa và tên của giảng viên" << endl;
     cout << "3: Hiển thị thời gian biểu tất cả các lịch đã được tạo của trường" << endl;
     cout << "Nhập lựa chọn của bạn: ";
     cin >> option;
 
     switch (option) {
         case 1:
-            // Code để kiểm tra hai hội đồng bất kỳ
+            string khoa1, khoa2;
+            cout << "Nhập tên khoa 1: ";
+            cin >> khoa1;
+            cout << "Nhập tên khoa 2: ";
+            cin >> khoa2;
+
+
             break;
         case 2:
-            // Code để tìm kiếm hội đồng thông qua khoa hoặc tên giáo viên
+            string tenMuonTimKiem;
+            cin>>tenMuonTimKiem;
+            timKiemHoiDongTheoGiangVien(tenMuonTimKiem);
             break;
         case 3:
             // Code để hiển thị thời gian biểu của các lịch đã được tạo của trường
+
             break;
         default:
             cout << "Lựa chọn không hợp lệ." << endl;
