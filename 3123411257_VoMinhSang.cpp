@@ -3,16 +3,10 @@
 #include <string>
 using namespace std;
 
-const int soLuongLine = 10*7*4-1; //10 người 7 khoa, mỗi người 4 hàng, trừ 1 hàng của người đầu tiên không có khoảng trống
-
-struct ThongTinThanhVien {
+struct Node {
     string tenThanhVien;
     string hocHamHocVi;
-    int a[4]; //lưu thời gian rảnh
-};
-
-struct Node {
-    ThongTinThanhVien thanhVien;
+    int time; //lưu thời gian rảnh
     Node* next; //liên kết thành viên tiếp theo trong cùng khoa
 };
 
@@ -21,16 +15,18 @@ struct Khoa {
     int soLuongThanhVien;
 };
 
-void themThanhVien(Khoa& khoa, ThongTinThanhVien thanhVien) {
+void themThanhVien(Khoa& khoa, string ten, string hocVi) {
     Node* newNode = new Node;
-    newNode->thanhVien = thanhVien;
+    newNode->tenThanhVien = ten;
+    newNode->hocHamHocVi = hocVi;
+
     newNode->next = NULL;
 
     // Khoa rỗng (thêm thành viên đầu tiên)
     if (khoa.head == NULL) {
         khoa.head = newNode;
     } else {
-        // Đã tồn tại ít nhất 1 thành viên => thêm thành viên mới
+        // Đã tồn tại ít nhất 1 thành viên => thêm thành viên mới , lien ket voi thanh vien cu
         Node* curr = khoa.head;
         while (curr->next != NULL) {
             curr = curr->next;
@@ -41,100 +37,49 @@ void themThanhVien(Khoa& khoa, ThongTinThanhVien thanhVien) {
 }
 
 int main() {
-    cout << "\n\t\t\t-----------Chào Mừng bạn đến với hệ thống quản lý hội đồng nghiệm thu-----------\n\n";
-
+    cout << "\t-----Chào Mừng bạn đến với hệ thống quản lý hội đồng nghiệm thu-----\n";
     // Tạo 7 khoa
     Khoa danhSachKhoa[7];
     for (int i = 0; i < 7; i++) {
         danhSachKhoa[i].head = NULL;
         danhSachKhoa[i].soLuongThanhVien = 0;
     }
+    // mở file thông tin Giảng Viên
+    fstream InfFile("/media/minhsang/Data/1_Source Code/Mid-term-exam-DSA/inputInforMember.txt");
+    if(!InfFile){
+        cout<<"Lỗi Mở File thông tin";
+        return -1;
+    }
+    // luu tru thong tin
+    string khoaCuaGiangVien, tenGiangVien, hocVi;
+    while (getline(InfFile, khoaCuaGiangVien)) {
 
-    ifstream InfFile("inputInforMember.txt");
-    if(!InfFile) return -1;
-
-    for(int i=0; i<soLuongLine; i++){
-        string khoaCuaGiangVien;
-        getline(InfFile, khoaCuaGiangVien);
+        getline(InfFile, tenGiangVien);
+        getline(InfFile, hocVi);
 
         if (khoaCuaGiangVien == "congNgheThongTin") {
-            string tenGiangVienIT;
-            getline(InfFile, tenGiangVienIT);
-            string hocHamGiangVien;
-            getline(InfFile, hocHamGiangVien);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienIT;
-            tmp.hocHamHocVi = hocHamGiangVien;
-            themThanhVien(danhSachKhoa[0], tmp);
+            themThanhVien(danhSachKhoa[0], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "luat") {
+            themThanhVien(danhSachKhoa[1], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "moiTruong") {
+            themThanhVien(danhSachKhoa[2], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "ngheThuat") {
+            themThanhVien(danhSachKhoa[3], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "ngoaiNgu") {
+            themThanhVien(danhSachKhoa[4], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "quanTriKinhDoanh") {
+            themThanhVien(danhSachKhoa[5], tenGiangVien, hocVi);
+        } else if (khoaCuaGiangVien == "thuVien_VanPhong") {
+            themThanhVien(danhSachKhoa[6], tenGiangVien, hocVi);
+        } else {
+            cout << "Khong the so sanh du lieu" << endl;
         }
 
-        if (khoaCuaGiangVien == "luat") {
-            string tenGiangVienLuatSu;
-            getline(InfFile, tenGiangVienLuatSu);
-            string hocViLuatSu;
-            getline(InfFile, hocViLuatSu);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienLuatSu;
-            tmp.hocHamHocVi = hocViLuatSu;
-            themThanhVien(danhSachKhoa[1], tmp);
-        }
-
-        if (khoaCuaGiangVien == "moiTruong") {
-            string tenGiangVienMoiTruong;
-            getline(InfFile, tenGiangVienMoiTruong);
-            string hocViMoiTruong;
-            getline(InfFile, hocViMoiTruong);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienMoiTruong;
-            tmp.hocHamHocVi = hocViMoiTruong;
-            themThanhVien(danhSachKhoa[2], tmp);
-        }
-
-        if (khoaCuaGiangVien == "ngheThuat") {
-            string tenGiangVienNgeThua;
-            getline(InfFile, tenGiangVienNgeThua);
-            string hocViNgheNhan;
-            getline(InfFile, hocViNgheNhan);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienNgeThua;
-            tmp.hocHamHocVi = hocViNgheNhan;
-            themThanhVien(danhSachKhoa[3], tmp);
-        }
-
-        if (khoaCuaGiangVien == "ngoaiNgu") {
-            string tenGiaoVienNgoaiNgu;
-            getline(InfFile, tenGiaoVienNgoaiNgu);
-            string hocHamNgoaiNgu;
-            getline(InfFile, hocHamNgoaiNgu);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiaoVienNgoaiNgu;
-            tmp.hocHamHocVi = hocHamNgoaiNgu;
-            themThanhVien(danhSachKhoa[4], tmp);
-        }
-
-        if (khoaCuaGiangVien == "quanTriKinhDoanh") {
-            string tenGiangVienQTKD;
-            getline(InfFile, tenGiangVienQTKD);
-            string hocViQTKD;
-            getline(InfFile, hocViQTKD);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienQTKD;
-            tmp.hocHamHocVi = hocViQTKD;
-            themThanhVien(danhSachKhoa[5], tmp);
-        }
-
-        if (khoaCuaGiangVien == "thuVien_VanPhong") {
-            string tenGiangVienVanPhong;
-            getline(InfFile, tenGiangVienVanPhong);
-            string hocViVanPhong;
-            getline(InfFile, hocViVanPhong);
-            ThongTinThanhVien tmp;
-            tmp.tenThanhVien = tenGiangVienVanPhong;
-            tmp.hocHamHocVi = hocViVanPhong;
-            themThanhVien(danhSachKhoa[6], tmp);
-        }
+        // Đọc dòng trống sau mỗi nhóm 3 dòng
+        string emptyLine;
+        getline(InfFile, emptyLine);
     }
-
+    InfFile.close();
 
     bool nhapTiep = true;
     while (nhapTiep) {
@@ -159,16 +104,8 @@ int main() {
                 if (chonKhoa == 1) {
                     cout << "Đây là danh sách các thành viên thuộc khoa Công nghệ Thông tin\n";
                     Node* curr = danhSachKhoa[0].head;
-                    for(int i=1; curr != NULL; i++) {
-                        cout <<i<<". " <<curr->thanhVien.tenThanhVien << endl;
-                        curr = curr->next;
-                    }
-                }
-                if (chonKhoa == 1) {
-                    cout << "Đây là danh sách các thành viên thuộc khoa Công nghệ Thông tin\n";
-                    Node* curr = danhSachKhoa[0].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -177,7 +114,7 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Luật\n";
                     Node* curr = danhSachKhoa[1].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -186,7 +123,7 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Môi trường\n";
                     Node* curr = danhSachKhoa[2].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -195,7 +132,7 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Nghệ thuật\n";
                     Node* curr = danhSachKhoa[3].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -204,7 +141,7 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Ngoại ngữ\n";
                     Node* curr = danhSachKhoa[4].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -213,7 +150,7 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Quản trị Kinh doanh\n";
                     Node* curr = danhSachKhoa[5].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
@@ -222,16 +159,16 @@ int main() {
                     cout << "Đây là danh sách các thành viên thuộc khoa Thư viện – Văn phòng\n";
                     Node* curr = danhSachKhoa[6].head;
                     for (int i = 1; curr != NULL; i++) {
-                        cout << i << ". " << curr->thanhVien.tenThanhVien << endl;
+                        cout << i << ". " << curr->tenThanhVien << endl;
                         curr = curr->next;
                     }
                 }
-                
+
                 cout<<endl;
                 cout<<"Nếu muốn đổi khoa chọn [-1]"<<endl;
                 cout << "Bạn đã biết thời gian trống của bao nhiêu người trong danh sách trên: ";
             } while (chon != -1);
-            
+
             cin >> bietBaoNhieuNguoi;
 
             if (bietBaoNhieuNguoi >= 3 && bietBaoNhieuNguoi <= 10) {
@@ -240,23 +177,31 @@ int main() {
                 cout << "Số lượng thành viên đã biết quá ít, không đủ để tạo hội đồng" << endl;
             } else {
                 cout << "Cơ sở dữ liệu của chúng tôi có tối đa 10 thành viên cho mỗi khoa\n";
-                cout << "Để mở rộng cơ sở dữ liệu xin liên hệ phòng kỹ thuật của chúng tôi qua E-Mail: techsupport@softtechsolutions.com" << endl;
+                cout << "Để mở rộng cơ sở dữ liệu xin liên hệ phòng kỹ thuật của chúng tôi qua E-Mail: techsupportMinhSang@softtechsolutions.com" << endl;
             }
         }
-
         cout << "Vâng, đã biết " << bietBaoNhieuNguoi << " người\n";
-        cout << "\nMời bạn nhập khung giờ trống cho từng người đã biết:\n";
-        cout << "Với định dạng sau: [thứ][giờBắtĐầu][GiờBận] ví dụ: 30915 (thứ 3, rảnh từ 9 giờ đến 15 giờ)\n";
-        cout << endl;
 
+        cout << "\nMời bạn nhập khung giờ trống cho từng người đã biết\n";
+        cout << "Với định dạng sau: [thứ][GiờBắtĐầuRảnh][GiờBận] ví dụ: 30915 (thứ 3, rảnh từ 9 giờ đến 15 giờ)\n";
+        cout << endl;
+        int chonNguoiThuMay;
         for (int i = 0; i < bietBaoNhieuNguoi; i++){
+            cout<<"Người Thứ ";
+            cin>>chonNguoiThuMay;
     		bool giaTriTime = false;
     		while (!giaTriTime) {
-        		cout << "Thời gian của người thứ " << i + 1 << ": ";
-                //xu ly thoi gian o day
-                int n; cin>>n;
+        		cout << "Thời gian của người thứ " << chonNguoiThuMay << " theo danh sách: ";
+                //đi đến nơi lưu thơi gian của người đó
+                Node *curr = danhSachKhoa[chonKhoa].head;
+                for(int j=0; j<chonNguoiThuMay; j++){
+                    curr = curr ->next;
+                }
+                int time;
+                cin>>time;
         		// Kiểm tra định dạng thời gian
-        		if (n >= 10000 && n <= 70000) {
+        		if (time >= 10000 && time <= 70000) {
+                    curr->time = time;
           			giaTriTime = true;
         		} else {
             		cout << "Bạn đã nhập định dạng thời gian không hợp lệ. Vui lòng nhập lại." << endl;
