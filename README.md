@@ -1,17 +1,17 @@
 # Mid-term Exam - Data Structures and Algorithms (DSA)
 MSSV: 3123411257
 Họ và tên: Võ Minh Sang
-lớp: DCT123C5, Đại Học Sàì Gòn
+Lớp: DCT123C5, Đại Học Sài Gòn
 
-# Hệ Thống Quản Lý Hội Đồng (v1.0)
-## Mô tả chung
+# Hệ Thống Quản Lý Hội Đồng (v1.0) :clipboard:
+## Mô tả chung :page_facing_up:
 
 Chương trình này được thiết kế để quản lý hội đồng của các khoa trong một trường đại học. Mỗi hội đồng bao gồm 3 giảng viên từ cùng một khoa. Chương trình cho phép người dùng nhập thông tin về thời gian rảnh của giảng viên, sau đó tự động tạo hội đồng dựa trên thông tin này. Với các chức năng cơ bản như:
-- Kiểm tra hai hội đồng khác khoa có trùng thời gian diễn ra không?
+- Kiểm tra hai hội đồng khác khoa có trùng thời gian diễn ra không
 - Kiểm tra các hội đồng mà một Giảng Viên đang tham gia trong tuần
 - In ra thời gian biểu các hội đồng sắp diễn ra trong tuần
 
-## Cấu trúc dữ liệu
+## Cấu trúc dữ liệu :file_folder:
 
 Chương trình sử dụng các cấu trúc dữ liệu sau:
 
@@ -21,48 +21,53 @@ Chương trình sử dụng các cấu trúc dữ liệu sau:
 - `nodeHoiDong`: Lưu trữ thông tin về một hội đồng, bao gồm tên khoa, thời gian tổ chức, danh sách thành viên và con trỏ đến hội đồng tiếp theo trong danh sách.
 - `Khoa`: Lưu trữ thông tin về một khoa, bao gồm con trỏ đến đầu danh sách giảng viên, số lượng giảng viên và con trỏ đến đầu danh sách hội đồng.
 
-## Các hàm chính
+## Các hàm chính :hammer_and_wrench:
 
 Chương trình sử dụng các hàm chính sau:
 
-- `themThanhVienVaoKhoa`: Thêm một giảng viên vào danh sách giảng viên của một khoa.
-- `timGiaoThoiGianRanh`: Tìm giao của thời gian rảnh của 3 giảng viên đưa vào. ý tưởng: Nếu thời gian kết thúc của một giảng viên lớn hơn thời gian bắt đầu của giảng viên khác (và ngược lại), thì chương trình sẽ xác định rằng có thời gian rảnh chung. 
-- `kiemTraTrungLich`: Kiểm tra xem hai hội đồng khác khoa có trùng lịch tổ chức hay không.
-- `taoHoiDong`: Tạo một hội đồng từ 3 giảng viên và thêm hội đồng này vào danh sách hội đồng của một khoa.
-- `timKiemHoiDongTheoGiangVien`: Tìm kiếm hội đồng theo tên giảng viên.
-- `hienThiThoiGianBieu`: Hiển thị thời gian biểu của tất cả các hội đồng.
+- `themThanhVienVaoKhoa`: Hàm này nhận vào một tham chiếu đến một đối tượng `Khoa` và hai chuỗi `ten` và `hocVi`. Hàm sẽ tạo một giảng viên mới với tên và học vị tương ứng, sau đó thêm giảng viên này vào danh sách giảng viên của khoa.
 
-## Cách sử dụng
+- `timGiaoThoiGianRanh`: Hàm này nhận vào ba đối tượng `chuyenDoiTime` (đại diện cho thời gian rảnh của ba giảng viên) và một số nguyên `thu` (đại diện cho thứ trong tuần). Hàm sẽ tìm giao của thời gian rảnh của ba giảng viên vào thứ `thu`. Nếu thời gian kết thúc của một giảng viên lớn hơn thời gian bắt đầu của giảng viên khác (và ngược lại), thì chương trình sẽ xác định rằng có thời gian rảnh chung.
+
+- `kiemTraTrungLich`: Hàm này nhận vào hai con trỏ đến hai đối tượng `nodeHoiDong` khác nhau. Hàm sẽ kiểm tra xem hai hội đồng này có trùng lịch tổ chức hay không bằng cách so sánh thời gian tổ chức của chúng.
+
+- `taoHoiDong`: Hàm này nhận vào một tham chiếu đến một đối tượng `Khoa`, một chuỗi `tenKhoa` và ba con trỏ đến ba đối tượng `nodeGiangVien`. Hàm sẽ tạo một hội đồng mới từ ba giảng viên này và thêm hội đồng này vào danh sách hội đồng của khoa.
+
+- `timKiemHoiDongTheoGiangVien`: Hàm này nhận vào một mảng `danhSachKhoa` chứa danh sách các khoa, một số nguyên `soLuongKhoa` đại diện cho số lượng khoa trong danh sách, và hai số nguyên `chonKhoa` và `chonThanhVien` đại diện cho lựa chọn của người dùng. Hàm sẽ tìm kiếm hội đồng theo tên giảng viên.
+
+- `hienThiThoiGianBieu`: Hàm này nhận vào một mảng `danhSachKhoa` chứa danh sách các khoa và một số nguyên `soLuongKhoa` đại diện cho số lượng khoa trong danh sách. Hàm sẽ hiển thị thời gian biểu của tất cả các hội đồng.
+
+## Cách sử dụng :computer:
 
 Khi chạy chương trình, người dùng sẽ được yêu cầu nhập thông tin về thời gian rảnh của giảng viên. Sau đó, chương trình sẽ tự động tạo hội đồng dựa trên thông tin này.
 
 Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất kỳ có trùng lịch tổ chức hay không, tìm kiếm hội đồng theo khoa và tên giảng viên, hoặc hiển thị thời gian biểu của tất cả các hội đồng.
 
-## Trường hợp đặc biệt đã xử lý
+## Trường hợp đặc biệt đã xử lý :warning:
 
-1. Trùng lịch: Chương trình đã xử lý trường hợp hai hội đồng có thể tổ chức cùng một thời điểm. Trước khi thêm một hội đồng mới vào danh sách, chương trình sẽ kiểm tra xem thời gian tổ chức của hội đồng mới có trùng với thời gian tổ chức của bất kỳ hội đồng nào khác trong cùng một khoa hay không. Nếu có, hội đồng mới sẽ không được thêm vào danh sách.
+1. :calendar: Trùng lịch: Chương trình đã xử lý trường hợp hai hội đồng có thể tổ chức cùng một thời điểm. Trước khi thêm một hội đồng mới vào danh sách, chương trình sẽ kiểm tra xem thời gian tổ chức của hội đồng mới có trùng với thời gian tổ chức của bất kỳ hội đồng nào khác trong cùng một khoa hay không. Nếu có, hội đồng mới sẽ không được thêm vào danh sách.
 
-2. Thời gian rảnh: Chương trình yêu cầu người dùng nhập thời gian rảnh của mỗi giảng viên. Nếu người dùng nhập một khoảng thời gian không hợp lệ (ví dụ, giờ bắt đầu lớn hơn giờ kết thúc, ngoài giờ làm việc ...), chương trình sẽ yêu cầu người dùng nhập lại.
+2. :clock10: Thời gian rảnh: Chương trình yêu cầu người dùng nhập thời gian rảnh của mỗi giảng viên. Nếu người dùng nhập một khoảng thời gian không hợp lệ (ví dụ, giờ bắt đầu lớn hơn giờ kết thúc, ngoài giờ làm việc ...), chương trình sẽ yêu cầu người dùng nhập lại.
 
-3. Tìm kiếm hội đồng: Khi tìm kiếm hội đồng theo tên giảng viên, nếu không tìm thấy giảng viên trong danh sách, chương trình sẽ thông báo rằng không tìm thấy giảng viên.
+3. :mag: Tìm kiếm hội đồng: Khi tìm kiếm hội đồng theo tên giảng viên, nếu không tìm thấy giảng viên trong danh sách, chương trình sẽ thông báo rằng không tìm thấy giảng viên.
 
-4. Và nhiều trường hợp nhập dữ liệu vô nghĩa khác sẽ đều có thông báo lỗi và yêu cầu nhập lại 
+4. :x: Và nhiều trường hợp nhập dữ liệu vô nghĩa khác sẽ đều có thông báo lỗi và yêu cầu nhập lại 
 
 ## Quy ước trong code
 
-0. Các hội đùng cùng một khoa không được diễn ra cùng lúc.
+0. :no_entry_sign: Các hội đùng cùng một khoa không được diễn ra cùng lúc.
    
-2. Thứ trong tuần: Thứ 2 được biểu diễn bằng số 2, thứ 3 bằng số 3, v.v., và thứ 7 bằng số 7. Thứ 2 có chỉ số 0 trong danh sách thời gian rảnh, thứ 3 có chỉ số 1, v.v.
+2. :date: Thứ trong tuần: Thứ 2 được biểu diễn bằng số 2, thứ 3 bằng số 3, v.v., và thứ 7 bằng số 7. Thứ 2 có chỉ số 0 trong danh sách thời gian rảnh, thứ 3 có chỉ số 1, v.v.
 
-3. Giờ trong ngày: Giờ trong ngày được biểu diễn bằng số nguyên từ 0 đến 23, với 0 tượng trưng cho 12 giờ đêm và 23 tượng trưng cho 11 giờ tối.
+3. :clock3: Giờ trong ngày: Giờ trong ngày được biểu diễn bằng số nguyên từ 0 đến 23, với 0 tượng trưng cho 12 giờ đêm và 23 tượng trưng cho 11 giờ tối.
 
-4. Khoa: Khoa được biểu diễn bằng số nguyên từ 1 đến 7, với 1 tượng trưng cho "Khoa Công nghệ thông tin", 2 tượng trưng cho "Khoa Luật", v.v., và 7 tượng trưng cho "Khoa Thư viện – Văn phòng".
+4. :school: Khoa: Khoa được biểu diễn bằng số nguyên từ 1 đến 7, với 1 tượng trưng cho "Khoa Công nghệ thông tin", 2 tượng trưng cho "Khoa Luật", v.v., và 7 tượng trưng cho "Khoa Thư viện – Văn phòng".
 
-5. Giảng viên: Mỗi giảng viên trong một khoa được biểu diễn bằng một số nguyên, với số nguyên đầu tiên tượng trưng cho giảng viên đầu tiên được thêm vào danh sách của khoa.
+5. :man_teacher: Giảng viên: Mỗi giảng viên trong một khoa được biểu diễn bằng một số nguyên, với số nguyên đầu tiên tượng trưng cho giảng viên đầu tiên được thêm vào danh sách của khoa.
 
 ## TEST CASE
 
-1. Không có thời gian rảnh của các giảng viên giao nhau để tạo hội đồng:
+1. :x: Không có thời gian rảnh của các giảng viên giao nhau để tạo hội đồng:
 
    - Chọn khoa: 1 (Khoa Công nghệ Thông tin)
    - Số lượng người đã biết thời gian rảnh: 3
@@ -79,7 +84,7 @@ Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất k�
    - chọn hiển thị thời gian biểu: 3
    - Kết quả: Chương trình sẽ thông báo không thể tạo hội đồng vì không có thời gian rảnh chung giữa các giảng viên và kết thúc chương trình.
 
-2. Có thời gian rảnh của các giảng viên giao nhau để tạo hội đồng:
+2. :white_check_mark: Có thời gian rảnh của các giảng viên giao nhau để tạo hội đồng:
    - Chọn khoa: 1 (Khoa Công nghệ Thông tin)
    - Nhập số người đã biết 3
    - Chọn giảng viên: 1
@@ -178,3 +183,4 @@ Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất k�
 - Mỗi hội đồng diễn ra trong 30 phút, dữ liệu cho ra thời gian rảnh của cả 3 đủ để tạo nhiều hơn 1 hội đồng, em chưa thể lưu hoạc tạo để tối ưu toàn bộ thời gian rảnh của thầy cô (thôi thì để thầy cô nghỉ ngơi đi, một ngày một hội đồng là được rồi hen "đây không phải bug-đây là tính năng")
 - Khi nhập lại một ngày hai lần em vẫn chưa kiểm sóat nó sẽ lưu vào đâu, đè hay thêm mới trong ngày này luôn ?? (thôi thì để đơn giản thì một ngày rảnh một khoảng thoi he)
 - ...
+

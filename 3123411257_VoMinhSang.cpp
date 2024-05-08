@@ -1,3 +1,8 @@
+/* 
+MSSV: 3123411257 
+Họ và tên: Võ Minh Sang 
+lớp: DCT123C5, Đại Học Sàì Gòn 
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
