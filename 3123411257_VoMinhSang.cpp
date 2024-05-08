@@ -69,8 +69,7 @@ vector<KhoangThoiGianRanh> timGiaoThoiGianRanh(chuyenDoiTime time1, chuyenDoiTim
 
                     // Một cuộc họp diễn ra trong 30 phút
                     if (gioKetThucGiao - gioBatDauGiao >= 0.5) {
-                        KhoangThoiGianRanh khoangGiao = {thu, static_cast<int>(gioBatDauGiao),
-                                                         static_cast<int>(gioBatDauGiao + 0.5)};
+                        KhoangThoiGianRanh khoangGiao = {thu, static_cast<int>(gioBatDauGiao),static_cast<int>(gioKetThucGiao)};
                         giaoDanhSachThoiGianRanh.push_back(khoangGiao);
                     }
                 }
@@ -218,21 +217,29 @@ void timKiemHoiDongTheoGiangVien(Khoa* danhSachKhoa, int soLuongKhoa, int chonKh
 }
 
 void hienThiThoiGianBieu(Khoa* danhSachKhoa, int soLuongKhoa) {
+    bool coHoiDong = false;
     for (int i = 0; i < soLuongKhoa; i++) {
         nodeHoiDong* curr = danhSachKhoa[i].danhSachHoiDong;
-        while (curr != nullptr) {
-            cout << "Hội đồng của " << curr->tenKhoa << " gồm các thành viên sau:" << endl;
-            for (int j = 0; j < 3; j++) {
-                cout << "   - " << curr->danhSachThanhVien[j]->tenThanhVien << " (" << curr->danhSachThanhVien[j]->hocHamHocVi << ")" << endl;
-            }
-            cout << "Thời gian tổ chức hội đồng: ";
-            for (const auto& danhSachThuX : curr->thoiGianToChuc.danhSachThoiGianRanh) {
-                for (const auto& khoangThoiGian : danhSachThuX) {
-                    cout << "Thứ " << khoangThoiGian.thu << ": từ " << khoangThoiGian.gioBatDau << " đến " << khoangThoiGian.gioBatDau + 0.5 << endl;
+        if (curr != nullptr) {
+            coHoiDong = true;
+            while (curr != nullptr) {
+                cout << "Hội đồng của " << curr->tenKhoa << " gồm các thành viên sau:" << endl;
+                for (int j = 0; j < 3; j++) {
+                    cout << "   - " << curr->danhSachThanhVien[j]->tenThanhVien << " (" << curr->danhSachThanhVien[j]->hocHamHocVi << ")" << endl;
                 }
+                cout << "Thời gian tổ chức hội đồng: ";
+                for (const auto& danhSachThuX : curr->thoiGianToChuc.danhSachThoiGianRanh) {
+                    for (const auto& khoangThoiGian : danhSachThuX) {
+                        cout << "Thứ " << khoangThoiGian.thu << ": từ " << khoangThoiGian.gioBatDau << " đến " << khoangThoiGian.gioBatDau + 0.5 << endl;
+                    }
+                }
+                curr = curr->next;
             }
-            curr = curr->next;
         }
+    }
+    if (!coHoiDong) {
+        cout << "Không có hội đồng nào." << endl;
+        exit (0);
     }
 }
 
