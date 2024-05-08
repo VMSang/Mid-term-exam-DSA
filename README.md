@@ -100,7 +100,7 @@ Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất k�
    - Chọn hiển thị thời gian biểu: 3
    - Kết quả: Chương trình sẽ tạo hội đồng với thời gian từ 9h đến 9h30 vào thứ 2.
 
-3. Kiểm tra hai hội đồng khác khoa có trùng lịch diễn ra hay không
+3. :white_check_mark: Kiểm tra hai hội đồng khác khoa có trùng lịch diễn ra hay không
    - Chọn khoa: 1 (Khoa Công nghệ Thông tin)
    - Nhập số người đã biết 3
    - Chọn giảng viên: 1
@@ -130,7 +130,7 @@ Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất k�
    - hội đồng 2: 2
      kết quả: hai hội đồng có trùng lịch
 
-4. Tìm kiếm Giảng Viên đang tham gia hội đồng nào
+4. :white_check_mark: Tìm kiếm Giảng Viên đang tham gia hội đồng nào
    - Chọn khoa: 1 (Khoa Công nghệ Thông tin)
    - Nhập số người đã biết 3
    - Chọn giảng viên: 1
@@ -148,7 +148,7 @@ Người dùng cũng có thể chọn kiểm tra xem hai hội đồng bất k�
    - Điền thứ tự của Giảng Viên: 2
      Kết quả: trả về thành viên trong hội đồng đang quản tham gia, thứ 2 lúc 9h đến 9h30
 
-5. Hai hội đồng cùng một khoa không trùng thời gian nhau
+5. :white_check_mark: Hai hội đồng cùng một khoa không trùng thời gian nhau
    - Chọn khoa: 1 (Khoa Công nghệ Thông tin)
    - Nhập số người đã biết 6
    - Chọn giảng viên: 1
